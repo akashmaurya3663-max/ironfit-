@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IronFit | Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  </head>
+  <body class="dashboard-page">
+    <nav class="topbar">
+      <div class="brand-mini">
+        <span class="brand-mark">I</span>
+        <h2>IronFit</h2>
+      </div>
+      <div class="nav-right">
+        <span>Welcome, {{ username }}</span>
+        <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+      </div>
+    </nav>
+
+    <div class="container">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      <section class="summary-grid">
+        <div class="card accent-orange">
+          <p>Total Members</p>
+          <h3>{{ total_members }}</h3>
+          <small>Active gym profiles</small>
+        </div>
+        <div class="card accent-blue">
+          <p>Total Fees</p>
+          <h3>₹{{ '%.2f' % total_fee }}</h3>
+          <small>Collected this month</small>
+        </div>
+        <div class="card accent-red">
+          <p>Expiring Soon</p>
+          <h3>{{ expiring_soon }}</h3>
+          <small>Need attention</small>
+        </div>
+      </section>
+
+      <section class="expiring-panel panel">
+        <div class="panel-head">
+          <h3>Members Expiring Soon</h3>
+          <span class="chip soft">Renewal list</span>
+        </div>
+
+        {% if expiring_members %}
+          <ul class="expiring-list">
+            {% for member in expiring_members %}
+              <li>
+                <strong>{{ member.name }}</strong>
+                <span>{{ member.plan }}</span>
+                <span>Expiry: {{ member.expiry_date }}</span>
+                <span class="status status-{{ member.status.lower().replace(' ', '-') }}">{{ member.status }}</span>
+                <form method="POST" action="{{ url_for('renew_member', member_id=member.id) }}">
+                  <button type="submit" class="renew-btn">Renew</button>
+                </form>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p class="empty-state">No members are expiring in the next 7 days.</p>
+        {% endif %}
+      </section>
+
+      <section class="plan-sections">
+        <div class="panel plan-block gold-block">
+          <div class="panel-head">
+            <h3>Gold Membership</h3>
+            <span class="chip gold-chip">Premium</span>
+          </div>
+
+          {% if gold_members %}
+            <ul class="member-plan-list">
+              {% for member in gold_members %}
+                <li>
+                  <div>
+                    <strong>{{ member.name }}</strong>
+                    <small>{{ member.phone }}</small>
+                  </div>
+                  <span>₹{{ '%.2f' % member.fee }}</span>
+                  <span>{{ member.expiry_date }}</span>
+                </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p class="empty-state">No Gold members yet.</p>
+          {% endif %}
+        </div>
+
+        <div class="panel plan-block platinum-block">
+          <div class="panel-head">
+            <h3>Platinum Membership</h3>
+            <span class="chip platinum-chip">Elite</span>
+          </div>
+
+          {% if platinum_members %}
+            <ul class="member-plan-list">
+              {% for member in platinum_members %}
+                <li>
+                  <div>
+                    <strong>{{ member.name }}</strong>
+                    <small>{{ member.phone }}</small>
+                  </div>
+                  <span>₹{{ '%.2f' % member.fee }}</span>
+                  <span>{{ member.expiry_date }}</span>
+                </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p class="empty-state">No Platinum members yet.</p>
+          {% endif %}
+        </div>
+      </section>
+
+      <section class="main-grid">
+        <div class="panel form-panel">
+          <div class="panel-head">
+            <h3>Add New Member</h3>
+            <span class="chip">Quick Entry</span>
+          </div>
+          <form method="POST" action="{{ url_for('dashboard') }}">
+            <div class="form-grid">
+              <div>
+                <label>Name</label>
+                <input type="text" name="name" required />
+              </div>
+              <div>
+                <label>Phone</label>
+                <input type="text" name="phone" />
+              </div>
+              <div>
+                <label>Email</label>
+                <input type="email" name="email" />
+              </div>
+              <div>
+                <label>Plan</label>
+                <select name="plan" required>
+                  <option value="">Select Plan</option>
+                  <option value="Basic">Basic</option>
+                  <option value="Gold">Gold</option>
+                  <option value="Platinum">Platinum</option>
+                </select>
+              </div>
+              <div>
+                <label>Monthly Fee (₹)</label>
+                <input type="number" name="fee" min="0" step="0.01" required />
+              </div>
+              <div>
+                <label>Discount (₹)</label>
+                <input type="number" name="discount" min="0" step="0.01" value="0" />
+              </div>
+              <div>
+                <label>Joining Date</label>
+                <input type="date" name="joining_date" value="{{ default_joining_date }}" required />
+              </div>
+              <div>
+                <label>Expiry Date</label>
+                <input type="date" name="expiry_date" value="{{ default_expiry_date }}" required />
+              </div>
+            </div>
+            <button type="submit" class="submit-btn">Add Member</button>
+          </form>
+        </div>
+
+        <div class="panel table-panel">
+          <div class="panel-head">
+            <h3>Membership Records</h3>
+            <span class="chip soft">Live List</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Plan</th>
+                  <th>Fee</th>
+                  <th>Expiry</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% if members %}
+                  {% for member in members %}
+                    <tr>
+                      <td>
+                        <strong>{{ member.name }}</strong><br />
+                        <small>{{ member.phone }}</small>
+                      </td>
+                      <td>{{ member.plan }}</td>
+                      <td>₹{{ '%.2f' % member.fee }}</td>
+                      <td>{{ member.expiry_date }}</td>
+                      <td>
+                        <span class="status status-{{ member.status.lower().replace(' ', '-') }}">
+                          {{ member.status }}
+                        </span>
+                      </td>
+                      <td>
+                        <div class="action-group">
+                          <a href="{{ url_for('edit_member', member_id=member.id) }}" class="edit-btn">Edit</a>
+                          <form method="POST" action="{{ url_for('delete_member', member_id=member.id) }}">
+                            <button class="delete-btn" type="submit">Delete</button>
+                          </form>
+                        </div>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                {% else %}
+                  <tr>
+                    <td colspan="6" class="empty-state">No members found. Add a new member.</td>
+                  </tr>
+                {% endif %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IRONFIT | Gym Membership</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  </head>
+  <body class="home-body">
+    <header class="site-header">
+      <div class="container nav-wrap">
+        <div class="logo-wrap">
+          <span class="logo-mark">I</span>
+          <span class="logo-text">IRONFIT</span>
+        </div>
+
+        <nav class="main-nav">
+          <a href="#home">Home</a>
+          <a href="#plans">Plans</a>
+          <a href="#about">About</a>
+          <a href="#classes">Classes</a>
+          <a href="#contact">Contact</a>
+        </nav>
+
+        <a class="nav-btn" href="{{ url_for('login') }}">Login</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" id="home">
+        <div class="container hero-grid">
+          <div class="hero-content">
+            <span class="eyebrow">Build your best self</span>
+            <h1>Strength begins here.</h1>
+            <p>
+              Train with expert coaches, elevate your consistency, and join a community
+              focused on power, health, and long-term results.
+            </p>
+
+            <div class="hero-actions">
+              <a class="primary-btn" href="#plans">View Plans</a>
+              <a class="secondary-btn" href="{{ url_for('login') }}">Membership Login</a>
+            </div>
+
+            <div class="stats-row">
+              <div>
+                <strong>10k+</strong>
+                <span>Members</span>
+              </div>
+              <div>
+                <strong>25+</strong>
+                <span>Coaches</span>
+              </div>
+              <div>
+                <strong>4.9/5</strong>
+                <span>Rating</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-visual">
+            <div class="visual-card main-card">
+              <div class="badge">Premium Gym</div>
+              <h3>Transform your body.</h3>
+              <p>Power training. Functional fitness. Real support.</p>
+            </div>
+            <div class="floating-box">
+              <span>Open 6:00 AM - 10:00 PM</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="features" id="classes">
+        <div class="container">
+          <div class="section-heading">
+            <span class="eyebrow">Why choose us</span>
+            <h2>Everything you need to stay strong.</h2>
+          </div>
+
+          <div class="feature-grid">
+            <div class="feature-card">
+              <div class="icon">🏋️</div>
+              <h3>Strength Training</h3>
+              <p>
+                <strong>Step 1:</strong> Begin with a proper assessment of your current fitness level and goals.<br />
+                <strong>Step 2:</strong> Follow a structured workout plan with weight training, resistance exercises, and progressive overload.<br />
+                <strong>Step 3:</strong> Build endurance, muscle mass, and power over time with consistent training and recovery.
+              </p>
+            </div>
+            <div class="feature-card">
+              <div class="icon">🔥</div>
+              <h3>Fat Loss</h3>
+              <p>
+                <strong>Step 1:</strong> Set a realistic calorie and activity target based on your body and lifestyle.<br />
+                <strong>Step 2:</strong> Combine cardio, strength work, and daily movement to increase calorie burn.<br />
+                <strong>Step 3:</strong> Stay consistent with smart nutrition and recovery to reduce body fat while keeping energy high.
+              </p>
+            </div>
+            <div class="feature-card">
+              <div class="icon">🥗</div>
+              <h3>Nutrition Support</h3>
+              <p>
+                <strong>Step 1:</strong> Understand your daily energy needs and eating habits.<br />
+                <strong>Step 2:</strong> Build balanced meals with the right mix of protein, carbs, healthy fats, and hydration.<br />
+                <strong>Step 3:</strong> Maintain a sustainable nutrition routine that supports performance, recovery, and long-term health.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="plans" id="plans">
+        <div class="container">
+          <div class="section-heading center">
+            <span class="eyebrow">Membership plans</span>
+            <h2>Choose the plan that fits your goals.</h2>
+          </div>
+
+          <div class="plan-grid">
+            <div class="plan-card">
+              <span class="plan-label">Starter</span>
+              <h3>₹999</h3>
+              <p>Per month</p>
+              <ul>
+                <li>Gym access</li>
+                <li>Locker facility</li>
+                <li>Basic trainer support</li>
+              </ul>
+              <a href="{{ url_for('login') }}" class="plan-btn">Join Now</a>
+            </div>
+
+            <div class="plan-card popular">
+              <span class="plan-label">Popular</span>
+              <h3>₹1,799</h3>
+              <p>Per month</p>
+              <ul>
+                <li>Unlimited gym access</li>
+                <li>Personal trainer guidance</li>
+                <li>Diet consultation</li>
+              </ul>
+              <a href="{{ url_for('login') }}" class="plan-btn">Join Now</a>
+            </div>
+
+            <div class="plan-card">
+              <span class="plan-label">Elite</span>
+              <h3>₹2,999</h3>
+              <p>Per month</p>
+              <ul>
+                <li>VIP unlimited access</li>
+                <li>Priority coaching</li>
+                <li>Body transformation plan</li>
+              </ul>
+              <a href="{{ url_for('login') }}" class="plan-btn">Join Now</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="about" id="about">
+        <div class="container about-grid">
+          <div class="about-image">
+            <div class="image-box">
+              <span>Elite coaching</span>
+            </div>
+          </div>
+
+          <div class="about-content">
+            <span class="eyebrow">About IronFit</span>
+            <h2>Built for dedication, discipline, and results.</h2>
+            <p>
+              We combine expert guidance, modern equipment, and personalized support to help
+              every member improve their strength, fitness, and confidence.
+            </p>
+            <div class="about-list">
+              <div>
+                <strong>Certified coaches</strong>
+                <span>Experienced in strength and transformation coaching.</span>
+              </div>
+              <div>
+                <strong>Modern equipment</strong>
+                <span>Technology-driven training gear designed for performance.</span>
+              </div>
+              <div>
+                <strong>Community energy</strong>
+                <span>Motivating environment where consistency leads to results.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="contact" id="contact">
+        <div class="container contact-wrap">
+          <div class="contact-text">
+            <span class="eyebrow">Contact us</span>
+            <h2>Ready to begin your fitness journey?</h2>
+            <p>Get in touch for membership guidance, pricing details, and personal coaching support.</p>
+          </div>
+
+          <form class="contact-form">
+            <input type="text" placeholder="Your Name" />
+            <input type="email" placeholder="Email Address" />
+            <textarea rows="4" placeholder="Your Message"></textarea>
+            <button type="button">Send Message</button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-wrap">
+        <p>© 2026 IronFit Gym. All rights reserved.</p>
+        <div class="footer-links">
+          <a href="#home">Home</a>
+          <a href="#plans">Plans</a>
+          <a href="{{ url_for('login') }}">Admin Login</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

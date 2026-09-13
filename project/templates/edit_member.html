@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Member | IronFit</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  </head>
+  <body class="dashboard-page">
+    <nav class="topbar">
+      <div class="brand-mini">
+        <span class="brand-mark">I</span>
+        <h2>IronFit</h2>
+      </div>
+      <div class="nav-right">
+        <span>Welcome, {{ username }}</span>
+        <a href="{{ url_for('dashboard') }}" class="logout-btn">Back</a>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="panel form-panel" style="max-width: 900px; margin: 0 auto;">
+        <div class="panel-head">
+          <h3>Edit Membership Details</h3>
+          <span class="chip">Update Member</span>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('edit_member', member_id=member['id']) }}">
+          <div class="form-grid">
+            <div>
+              <label>Name</label>
+              <input type="text" name="name" value="{{ member['name'] }}" required />
+            </div>
+            <div>
+              <label>Phone</label>
+              <input type="text" name="phone" value="{{ member['phone'] or '' }}" />
+            </div>
+            <div>
+              <label>Email</label>
+              <input type="email" name="email" value="{{ member['email'] or '' }}" />
+            </div>
+            <div>
+              <label>Plan</label>
+              <select name="plan" required>
+                <option value="Basic" {% if member['plan'] == 'Basic' %}selected{% endif %}>Basic</option>
+                <option value="Gold" {% if member['plan'] == 'Gold' %}selected{% endif %}>Gold</option>
+                <option value="Platinum" {% if member['plan'] == 'Platinum' %}selected{% endif %}>Platinum</option>
+              </select>
+            </div>
+            <div>
+              <label>Monthly Fee (₹)</label>
+              <input type="number" name="fee" min="0" step="0.01" value="{{ member['fee'] }}" required />
+            </div>
+            <div>
+              <label>Discount (₹)</label>
+              <input type="number" name="discount" min="0" step="0.01" value="{{ member['discount'] or 0 }}" />
+            </div>
+            <div>
+              <label>Joining Date</label>
+              <input type="date" name="joining_date" value="{{ member['joining_date'] }}" required />
+            </div>
+            <div>
+              <label>Expiry Date</label>
+              <input type="date" name="expiry_date" value="{{ member['expiry_date'] }}" required />
+            </div>
+          </div>
+
+          <button type="submit" class="submit-btn">Save Changes</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

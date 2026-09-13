@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IronFit | Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  </head>
+  <body class="login-page">
+    <div class="login-container">
+      <div class="brand-box">
+        <div class="brand-badge">IRONFIT</div>
+        <h1>Strength begins here.</h1>
+        <p>Premium gym membership management built for performance-driven training centers.</p>
+        <ul class="feature-list">
+          <li>Membership tracking</li>
+          <li>Fee management</li>
+          <li>Expiry alerts</li>
+        </ul>
+      </div>
+
+      <div class="login-panel">
+        <form class="login-form" method="POST" action="{{ url_for('login') }}">
+          <div class="login-header">
+            <span>Admin Access</span>
+            <h2>Sign In</h2>
+          </div>
+
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+
+          <div class="field-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Enter username" required />
+          </div>
+
+          <div class="field-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Enter password" required />
+          </div>
+
+          <button type="submit">Login to Dashboard</button>
+
+          <div class="demo-login">
+            <small>Demo login: admin / admin123</small>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
